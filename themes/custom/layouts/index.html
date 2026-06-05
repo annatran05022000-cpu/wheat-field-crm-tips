@@ -1,37 +1,75 @@
 {{ define "main" }}
-<div class="container">
-  <div class="category-tabs">
-    <span class="tab active">All</span>
-    <span class="tab">Lead Gen</span>
-    <span class="tab">Cold Email</span>
-    <span class="tab">Agency</span>
-    <span class="tab">Tools</span>
-  </div>
-  {{ $posts := where .Site.RegularPages "Type" "posts" }}
-  <div class="featured-row">
+{{ $posts := where .Site.RegularPages "Type" "posts" }}
+{{ $total := len $posts }}
+
+{{ if gt $total 0 }}
+<!-- Hero -->
+<section class="hero-section">
+  <div class="container">
     {{ with index $posts 0 }}
-    <div class="featured-card big">
-      <div class="label">{{ index .Params.tags 0 | default "Featured" }}</div>
-      <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-      <p style="margin-top:0.5rem;opacity:0.8;font-size:0.92rem">{{ .Description | default .Summary | truncate 120 }}</p>
-      <div style="margin-top:1rem;font-size:0.82rem;font-family:sans-serif;opacity:0.6">{{ .Date.Format "Jan 2, 2006" }}</div>
-    </div>
-    {{ end }}
-    {{ range after 1 (first 3 $posts) }}
-    <div class="featured-card">
-      <div class="label">{{ index .Params.tags 0 | default "Guide" }}</div>
-      <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-    </div>
-    {{ end }}
-  </div>
-  <div class="post-grid-4">
-    {{ range after 3 $posts }}
-    <div class="post-card-sm">
-      <div class="label">{{ index .Params.tags 0 | default "Article" }}</div>
-      <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-      <div style="font-size:0.78rem;font-family:sans-serif;opacity:0.6;margin-top:0.5rem">{{ .Date.Format "Jan 2, 2006" }}</div>
+    <div class="hero-card">
+      <div class="hero-thumb" style="background: linear-gradient(135deg, var(--main) 0%, var(--accent) 100%);">
+        <span class="hero-category">{{ index .Params.tags 0 | default "Featured" }}</span>
+      </div>
+      <div class="hero-body">
+        <span class="badge-featured">Featured Article</span>
+        <h1 class="hero-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
+        <p class="hero-desc">{{ .Description | default .Summary | truncate 160 }}</p>
+        <div class="hero-meta">
+          <span class="meta-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+          <span class="meta-dot">&middot;</span>
+          <span class="meta-read">{{ .ReadingTime }} min read</span>
+        </div>
+        <a href="{{ .Permalink }}" class="btn-read">Read Article &rarr;</a>
+      </div>
     </div>
     {{ end }}
   </div>
-</div>
+</section>
+
+<!-- Article Grid -->
+<section class="articles-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Latest Articles</h2>
+      <a href="/posts/" class="view-all">View All &rarr;</a>
+    </div>
+    <div class="post-grid">
+      {{ range after 1 $posts }}
+      <article class="post-card">
+        <div class="card-thumb" style="background: linear-gradient(135deg, var(--card) 0%, var(--main) 100%);">
+          {{ range first 1 .Params.tags }}<span class="card-category">{{ . }}</span>{{ end }}
+        </div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+            <span>&middot;</span>
+            <span>{{ .ReadingTime }} min read</span>
+          </div>
+          <h3 class="card-title"><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+          <p class="card-desc">{{ .Description | default .Summary | truncate 110 }}</p>
+        </div>
+        <div class="card-footer">
+          <a href="{{ .Permalink }}" class="card-link">Read more &rarr;</a>
+        </div>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- About strip -->
+<section class="about-strip">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-icon">&#128214;</div>
+      <div>
+        <h3>About This Blog</h3>
+        <p>{{ .Site.Params.description }} We help B2B teams, agencies, and sales professionals grow faster with data-driven strategies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{ end }}
 {{ end }}

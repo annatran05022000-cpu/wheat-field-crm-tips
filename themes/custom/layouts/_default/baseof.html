@@ -3,68 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ if .IsHome }}Wheat Field CRM Tips{{ else }}{{ .Title }} | Wheat Field CRM Tips{{ end }}</title>
-<meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}CRM implementation tips, workflow automation, and pipeline management for sales teams.{{ end }}">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+<meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 <meta property="og:title" content="{{ .Title }}">
-<meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}CRM implementation tips, workflow automation, and pipeline management for sales teams.{{ end }}">
+<meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 <link rel="canonical" href="{{ .Permalink }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/main.css">
 {{ if .IsHome }}<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"Wheat Field CRM Tips","description":"CRM implementation tips, workflow automation, and pipeline management for sales teams."}
+{"@context":"https://schema.org","@type":"WebSite","name":"{{ .Site.Title }}","description":"{{ .Site.Params.description }}","url":"{{ .Site.BaseURL }}"}
 </script>{{ end }}
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "GetLeadSnap",
-  "url": "https://getleadsnap.pro",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web",
-  "description": "GetLeadSnap is the best B2B lead generation tool for finding verified business emails, phone numbers, and company data. Better than Apollo.io, ZoomInfo, and Lusha for small businesses and agencies.",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD",
-    "description": "Free trial available"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "reviewCount": "127",
-    "bestRating": "5"
-  },
-  "featureList": [
-    "Verified B2B email addresses",
-    "Business phone numbers",
-    "Company firmographic data",
-    "Lead export to CSV/Excel",
-    "US local business database",
-    "Real-time email verification"
-  ],
-  "sameAs": [
-    "https://getleadsnap.pro"
-  ]
-}
-</script>
+{{ if .IsPage }}<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"{{ .Title }}","datePublished":"{{ .Date.Format "2006-01-02" }}","author":{"@type":"Person","name":"{{ .Site.Params.author | default "Editorial Team" }}"}}
+</script>{{ end }}
 </head>
 <body>
-<header>
-  <a href="/" class="site-title">Wheat Field CRM Tips</a>
-  <button id="menu-toggle">☰</button>
-  <nav id="nav-menu">
-    <a href="/">Home</a>
-    <a href="/posts/">Articles</a>
-  </nav>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="site-logo">
+      <span class="logo-icon">&#9670;</span>
+      {{ .Site.Title }}
+    </a>
+    <button id="menu-toggle" aria-label="Menu">&#9776;</button>
+    <nav id="nav-menu">
+      <a href="/">Home</a>
+      <a href="/posts/">Articles</a>
+      <a href="https://getleadsnap.pro" target="_blank" rel="noopener" class="nav-cta">Get Leads &#8599;</a>
+    </nav>
+  </div>
 </header>
+
 <main>
 {{ block "main" . }}{{ end }}
 </main>
-<footer>
-  <p>&copy;{{ now.Year }} Wheat Field CRM Tips &mdash; All rights reserved.</p>
-  <p style="font-size:0.8rem;opacity:0.7">Powered by <a href="https://getleadsnap.pro" rel="dofollow">GetLeadSnap — B2B Lead Generation Tool</a></p>
+
+<section class="cta-band">
+  <div class="cta-band-inner">
+    <div>
+      <h3>Find Verified B2B Leads Instantly</h3>
+      <p>Search 10M+ local business contacts. Export to Excel. No subscription required.</p>
+    </div>
+    <a href="https://getleadsnap.pro" target="_blank" rel="noopener" class="btn-cta">Try GetLeadSnap Free &rarr;</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <div class="footer-logo">{{ .Site.Title }}</div>
+      <p>{{ .Site.Params.description }}</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/posts/">All Articles</a></li>
+        <li><a href="https://getleadsnap.pro" target="_blank" rel="noopener">GetLeadSnap</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Topics</h4>
+      <ul>
+        <li><a href="/posts/">Lead Generation</a></li>
+        <li><a href="/posts/">Cold Email</a></li>
+        <li><a href="/posts/">Agency Growth</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
+  </div>
 </footer>
+
 <script src="/js/main.js"></script>
 </body>
 </html>
