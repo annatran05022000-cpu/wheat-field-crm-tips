@@ -1,0 +1,16 @@
+
+baseURL = "/"
+languageCode = "en-us"
+title = "Wheat Field CRM Tips"
+theme = "custom"
+
+[params]
+  description = "CRM implementation tips, workflow automation, and pipeline management for sales teams."
+  author = "Editorial Team"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5

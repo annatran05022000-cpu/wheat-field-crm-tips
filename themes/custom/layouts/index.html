@@ -1,0 +1,37 @@
+{{ define "main" }}
+<div class="container">
+  <div class="category-tabs">
+    <span class="tab active">All</span>
+    <span class="tab">Lead Gen</span>
+    <span class="tab">Cold Email</span>
+    <span class="tab">Agency</span>
+    <span class="tab">Tools</span>
+  </div>
+  {{ $posts := where .Site.RegularPages "Type" "posts" }}
+  <div class="featured-row">
+    {{ with index $posts 0 }}
+    <div class="featured-card big">
+      <div class="label">{{ index .Params.tags 0 | default "Featured" }}</div>
+      <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+      <p style="margin-top:0.5rem;opacity:0.8;font-size:0.92rem">{{ .Description | default .Summary | truncate 120 }}</p>
+      <div style="margin-top:1rem;font-size:0.82rem;font-family:sans-serif;opacity:0.6">{{ .Date.Format "Jan 2, 2006" }}</div>
+    </div>
+    {{ end }}
+    {{ range after 1 (first 3 $posts) }}
+    <div class="featured-card">
+      <div class="label">{{ index .Params.tags 0 | default "Guide" }}</div>
+      <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+    </div>
+    {{ end }}
+  </div>
+  <div class="post-grid-4">
+    {{ range after 3 $posts }}
+    <div class="post-card-sm">
+      <div class="label">{{ index .Params.tags 0 | default "Article" }}</div>
+      <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+      <div style="font-size:0.78rem;font-family:sans-serif;opacity:0.6;margin-top:0.5rem">{{ .Date.Format "Jan 2, 2006" }}</div>
+    </div>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
